@@ -1,12 +1,17 @@
 package com.example.rentACar.business.concretes;
 
-import java.util.List;
 
+
+import com.example.rentACar.business.requests.CreateBrandRequest;
+import com.example.rentACar.business.responses.GetAllBrandResponse;
 import org.springframework.stereotype.Service;
 
 import com.example.rentACar.business.abstracts.BrandService;
 import com.example.rentACar.dataAccess.abstracts.BrandRepository;
 import com.example.rentACar.entities.concretes.Brand;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class BrandManager implements BrandService {
@@ -18,9 +23,27 @@ public class BrandManager implements BrandService {
 	}
 
 	@Override
-	public List<Brand> getAll() {
-		List<Brand> brandList= brandRepository.getAll();
-		return brandList;
+	public List<GetAllBrandResponse> getAll() {
+		List<Brand> brandList= brandRepository.findAll();
+		List<GetAllBrandResponse> brandsResponse=new ArrayList<GetAllBrandResponse>();
+		
+		for (Brand brand : brandList) {
+			GetAllBrandResponse responseItem=new GetAllBrandResponse();
+			responseItem.setId(brand.getId());
+			responseItem.setName(brand.getName());
+			brandsResponse.add(responseItem);
+		}
+		return brandsResponse;
 	}
+
+	public void Add(CreateBrandRequest CreateBrandRequest) {
+		Brand brand = new Brand();
+		brand.setName(CreateBrandRequest.getName());
+		this.brandRepository.save(brand);
+		
+	}
+
+	
+
 
 }

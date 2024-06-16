@@ -2,8 +2,10 @@
 
 import java.util.List;
 
-import com.example.rentACar.entities.concretes.Brand;
+import com.example.rentACar.business.requests.CreateBrandRequest;
+import com.example.rentACar.business.responses.GetAllBrandResponse;
 
 public interface BrandService {
- List<Brand> getAll();
+ List<GetAllBrandResponse> getAll();
+ void Add(CreateBrandRequest CreateBrandRequest);
 }
