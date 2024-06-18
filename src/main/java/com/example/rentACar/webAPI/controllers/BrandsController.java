@@ -23,7 +23,7 @@ public class BrandsController {
 		this.brandService = brandService;
 	}
 	
-	@GetMapping("/getall")
+	@GetMapping("/getallData")
 	public List<GetAllBrandResponse> getAllBrand()
 	{
 		List<GetAllBrandResponse> brands=brandService.getAll();
