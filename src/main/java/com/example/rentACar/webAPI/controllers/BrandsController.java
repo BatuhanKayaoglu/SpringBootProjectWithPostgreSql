@@ -1,8 +1,6 @@
 package com.example.rentACar.webAPI.controllers;
 
 import java.util.List;
-import java.util.Optional;
-
 import com.example.rentACar.business.requests.UpdateBrandRequest;
 import com.example.rentACar.business.responses.GetByIdBrandResponse;
 import org.springframework.web.bind.annotation.*;
@@ -50,13 +48,13 @@ public class BrandsController {
 			return new ResponseEntity<>("Başarıyla Silindi", HttpStatus.OK);
 	}
 
-	@PostMapping("/{id}}")
+	@PostMapping("{id}")
 	public GetByIdBrandResponse getById(@PathVariable int id)
 	{
 		return brandService.getById(id);
 	}
 
-	@PutMapping("/{id}}")
+	@PutMapping("{id}")
 	public void  update(@RequestBody UpdateBrandRequest updateBrandRequest)
 	{
 		this.brandService.update(updateBrandRequest);
