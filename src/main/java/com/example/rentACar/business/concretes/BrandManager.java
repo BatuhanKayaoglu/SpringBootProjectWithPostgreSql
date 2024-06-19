@@ -3,6 +3,7 @@ import com.example.rentACar.business.requests.CreateBrandRequest;
 import com.example.rentACar.business.requests.UpdateBrandRequest;
 import com.example.rentACar.business.responses.GetAllBrandResponse;
 import com.example.rentACar.business.responses.GetByIdBrandResponse;
+import com.example.rentACar.business.rules.BrandBusinessRules;
 import com.example.rentACar.core.utilities.mappers.ModelMapperService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
@@ -17,10 +18,12 @@ public class BrandManager implements BrandService {
 	
 	private BrandRepository brandRepository;
 	private ModelMapperService modelMapperService;
+	private BrandBusinessRules brandBusinessRules;
 	
-	public BrandManager(BrandRepository brandRepository, ModelMapperService modelMapperService) {
+	public BrandManager(BrandRepository brandRepository, ModelMapperService modelMapperService, BrandBusinessRules brandBusinessRules) {
 		this.brandRepository = brandRepository;
         this.modelMapperService = modelMapperService;
+        this.brandBusinessRules = brandBusinessRules;
     }
 
 	@Override
@@ -33,6 +36,8 @@ public class BrandManager implements BrandService {
 	}
 
 	public void Add(CreateBrandRequest CreateBrandRequest) {
+		brandBusinessRules.checkIfBrandNameExist(CreateBrandRequest.getName());
+
 		Brand brand=this.modelMapperService.forRequest().map(CreateBrandRequest,Brand.class);
 		this.brandRepository.save(brand);
 	}
@@ -54,7 +59,7 @@ public class BrandManager implements BrandService {
 	public GetByIdBrandResponse getById(int id) {
 		Brand brand=this.brandRepository.findById(id).orElseThrow();
 		GetByIdBrandResponse response=this.modelMapperService.forResponse().map(brand,GetByIdBrandResponse.class);
-		return  response;
+		return response;
 	}
 
 }
